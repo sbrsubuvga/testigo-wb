@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'common/app_bar.dart';
+import 'common/my_footer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,7 +20,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+      return Scaffold(
       appBar: MyAppBar(title: 'TestiGO'),
       body: SingleChildScrollView(
         child: Column(
@@ -76,8 +77,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-
-                        Container(
+            Container(
                           padding: EdgeInsets.symmetric(horizontal: 200),
                           height: 300,
                           child: Column(
@@ -107,23 +107,74 @@ class _HomeState extends State<Home> {
                             ],
                           ),
                         ),
-
-
             ShadResponsiveBuilder(
-              builder: (context, breakpoint) {
-                return switch (breakpoint) {
-                  ShadBreakpointTN() => const Text('Tiny'),
-                  ShadBreakpointSM() => const Text('Small'),
-                  ShadBreakpointMD() => const Text('Medium'),
-                  ShadBreakpointLG() => const Text('Large'),
-                  ShadBreakpointXL() => const Text('Extra Large'),
-                  ShadBreakpointXXL() => const Text('Extra Extra Large'),
-                };
-              },
-            ),
+            builder: (context, breakpoint) {
+
+              int crossAxisCount = switch (breakpoint) {
+                ShadBreakpointXXL() => 4,
+                ShadBreakpointXL() => 4,
+                ShadBreakpointLG() => 4,
+                ShadBreakpointMD() => 2,
+                _ => 1, // Default case for other breakpoints
+              };
+              return GridView.builder(
+                padding: const EdgeInsets.all(16.0),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  mainAxisSpacing: 16.0,
+                  crossAxisSpacing: 16.0,
+                  childAspectRatio: 1.0,
+                  mainAxisExtent: 300
+                ),
+                itemCount: 8,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.featured_play_list,
+                            size: 48.0,
+                            color: Colors.blueAccent,
+                          ),
+                          const SizedBox(height: 16.0),
+                          Text(
+                            'Feature ${index + 1}',
+                            style: ShadTheme.of(context).textTheme.h4.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            'Description of feature ${index + 1}.',
+                            style: ShadTheme.of(context).textTheme.small.copyWith(
+                                  height: 1.5,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+            MyFooterBar()
           ],
         ),
       ),
+
     );
   }
 }
