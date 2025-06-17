@@ -11,7 +11,7 @@ void main() {
 
 // Maps the routes to the specific widget page.
 final routes = <String, WidgetBuilder>{
-  '': (_) => const Home(),
+  '': (_) => Home(),
   '/alert': (_) => const ShadCard(),
 
 };
@@ -27,8 +27,10 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.dark,
       routes: routes,
       initialRoute: '',
+      themeCurve: Curves.fastLinearToSlowEaseIn,
       theme: ShadThemeData(
         brightness: Brightness.light,
+
         colorScheme: const ShadZincColorScheme.light(),
         // Example with google fonts
         // textTheme: ShadTextTheme.fromGoogleFont(GoogleFonts.poppins),
@@ -45,7 +47,7 @@ class App extends StatelessWidget {
         // Example of custom font family
         // textTheme: ShadTextTheme(family: 'UbuntuMono'),
       ),
-      home: const Home(),
+      home:  Home(),
     );
   }
 }
