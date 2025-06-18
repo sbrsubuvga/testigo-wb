@@ -36,67 +36,17 @@ class _HomeState extends State<Home> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return section1[index].animate().fadeIn(duration: 800.ms).slideY(begin: 0.4);
+                return section1[index];
               },
               childCount: section1.length, // Example item count
             ),
           ),
-          // _featuresBuilder(),
-          SliverGrid(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 16.0,
-                crossAxisSpacing: 16.0,
-                childAspectRatio: 1.0,
-                mainAxisExtent: 300,
-              ),
+          _featuresBuilder(),
 
-              delegate:SliverChildBuilderDelegate((context, index) {
-                return Card(
-                  elevation: 4.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.featured_play_list,
-                          size: 48.0,
-                          color: Colors.blueAccent,
-                        ).animate().fadeIn(duration: 800.ms),
-                        const SizedBox(height: 16.0),
-                        Text(
-                          'Feature ${index + 1}',
-                          style: ShadTheme.of(context).textTheme.h4.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ).animate().fadeIn(duration: 800.ms).slideY(begin: -0.2),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          'Description of feature ${index + 1}.',
-                          style: ShadTheme.of(context).textTheme.small.copyWith(
-                            height: 1.5,
-                          ),
-                          textAlign: TextAlign.center,
-                        ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.8),
-                      ],
-                    ),
-                  ),
-                ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.8);
-              },
-                childCount: 8,
-
-
-              )
-          ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                return section1[index].animate().fadeIn(duration: 800.ms).slideY(begin: 0.4);
+                return section1[index].animate().fadeIn(duration: 800.ms).slideY(begin: 0.2);
               },
               childCount: section1.length, // Example item count
             ),
@@ -200,7 +150,7 @@ Container _mainCol(BuildContext context) {
   }
 
   Widget _featuresBuilder() {
-    return ContentPadding(
+    return SliverContentPadding(
       child: ShadResponsiveBuilder(
         builder: (context, breakpoint) {
           int crossAxisCount = switch (breakpoint) {
@@ -210,7 +160,57 @@ Container _mainCol(BuildContext context) {
             ShadBreakpointMD() => 2,
             _ => 1, // Default case for other breakpoints
           };
-          return Container();
+          return SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                mainAxisSpacing: 16.0,
+                crossAxisSpacing: 16.0,
+                childAspectRatio: 1.0,
+                mainAxisExtent: 300,
+              ),
+
+              delegate:SliverChildBuilderDelegate((context, index) {
+                return Card(
+                  elevation: 4.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.featured_play_list,
+                          size: 48.0,
+                          color: Colors.blueAccent,
+                        ).animate().fadeIn(duration: 800.ms),
+                        const SizedBox(height: 16.0),
+                        Text(
+                          'Feature ${index + 1}',
+                          style: ShadTheme.of(context).textTheme.h4.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ).animate().fadeIn(duration: 800.ms).slideY(begin: -0.2),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          'Description of feature ${index + 1}.',
+                          style: ShadTheme.of(context).textTheme.small.copyWith(
+                            height: 1.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.2),
+                      ],
+                    ),
+                  ),
+                ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.1);
+              },
+                childCount: 8,
+
+
+              )
+          );
         },
       ),
     );
