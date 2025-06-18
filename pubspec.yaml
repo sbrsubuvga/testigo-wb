@@ -35,7 +35,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   shadcn_ui: ^0.27.1
-  flutter_animate: ^4.5.2
+  flutter_animate:
+    git: https://github.com/sbrsubuvga/flutter_animate.git
+
+dependency_overrides:
+  flutter_animate:
+    git: https://github.com/sbrsubuvga/flutter_animate.git
 
 dev_dependencies:
   flutter_test:

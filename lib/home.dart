@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/widgets/lazy_load_builder.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -15,35 +16,102 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final ScrollController scrollController = ScrollController();
   @override
   void dispose() {
+    scrollController.dispose(); // Dispose the scroll controller
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-      appBar:MyAppBar(title: 'TestiGO'),
-      body: Builder(
-        builder: (context) {
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                 _mainCol(context),
-                _whatIsTestigo(context),
-                _featuresBuilder(),
-                MyFooterBar()
-              ],
+    List<Widget> section1 = [_mainCol(context),_whatIsTestigo(context)];
+    List<Widget> section2 = [_mainCol(context),_whatIsTestigo(context)];
+    return Scaffold(
+      appBar: MyAppBar(title: 'TestiGO'),
+      body: CustomScrollView(
+        controller: scrollController,
+        slivers: [
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return section1[index].animate().fadeIn(duration: 800.ms).slideY(begin: 0.4);
+              },
+              childCount: section1.length, // Example item count
             ),
-          );
-        }
-      ),
+          ),
+          // _featuresBuilder(),
+          SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 16.0,
+                crossAxisSpacing: 16.0,
+                childAspectRatio: 1.0,
+                mainAxisExtent: 300,
+              ),
 
+              delegate:SliverChildBuilderDelegate((context, index) {
+                return Card(
+                  elevation: 4.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.featured_play_list,
+                          size: 48.0,
+                          color: Colors.blueAccent,
+                        ).animate().fadeIn(duration: 800.ms),
+                        const SizedBox(height: 16.0),
+                        Text(
+                          'Feature ${index + 1}',
+                          style: ShadTheme.of(context).textTheme.h4.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ).animate().fadeIn(duration: 800.ms).slideY(begin: -0.2),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          'Description of feature ${index + 1}.',
+                          style: ShadTheme.of(context).textTheme.small.copyWith(
+                            height: 1.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.8),
+                      ],
+                    ),
+                  ),
+                ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.8);
+              },
+                childCount: 8,
+
+
+              )
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                return section1[index].animate().fadeIn(duration: 800.ms).slideY(begin: 0.4);
+              },
+              childCount: section1.length, // Example item count
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: MyFooterBar(),
+          ),
+        ],
+      ),
     );
   }
 
-  Container _mainCol(BuildContext context) {
+
+
+Container _mainCol(BuildContext context) {
     return Container(
       height: 500,
       padding: const EdgeInsets.all(16.0),
@@ -142,56 +210,7 @@ class _HomeState extends State<Home> {
             ShadBreakpointMD() => 2,
             _ => 1, // Default case for other breakpoints
           };
-          return GridView.builder(
-            padding: const EdgeInsets.all(16.0),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              mainAxisSpacing: 16.0,
-              crossAxisSpacing: 16.0,
-              childAspectRatio: 1.0,
-              mainAxisExtent: 300,
-            ),
-            itemCount: 8,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Card(
-                elevation: 4.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.featured_play_list,
-                        size: 48.0,
-                        color: Colors.blueAccent,
-                      ).animate().fadeIn(duration: 800.ms),
-                      const SizedBox(height: 16.0),
-                      Text(
-                        'Feature ${index + 1}',
-                        style: ShadTheme.of(context).textTheme.h4.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                        textAlign: TextAlign.center,
-                      ).animate().fadeIn(duration: 800.ms).slideY(begin: -0.2),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        'Description of feature ${index + 1}.',
-                        style: ShadTheme.of(context).textTheme.small.copyWith(
-                              height: 1.5,
-                            ),
-                        textAlign: TextAlign.center,
-                      ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.2),
-                    ],
-                  ),
-                ),
-              ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.4);
-            },
-          );
+          return Container();
         },
       ),
     );
