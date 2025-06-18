@@ -29,10 +29,11 @@ class _HomeState extends State<Home> {
     List<Widget> section1 = [_mainCol(context),_whatIsTestigo(context)];
     List<Widget> section2 = [_mainCol(context),_whatIsTestigo(context)];
     return Scaffold(
-      appBar: MyAppBar(title: 'TestiGO'),
+      // appBar: MyAppBar(title: 'TestiGO'),
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
+          MyAppBar(title: 'TestiGO'),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {

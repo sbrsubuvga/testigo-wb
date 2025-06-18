@@ -12,10 +12,10 @@ class ContentPadding extends StatelessWidget {
         return Padding(
             padding: EdgeInsets.symmetric(horizontal: switch(breakpoint){
           ShadBreakpointXXL() => 300,
-        ShadBreakpointXL() => 300,
-        ShadBreakpointLG() => 200,
-        ShadBreakpointMD() => 100,
-        _ => 50, // Default case for other breakpoints
+        ShadBreakpointXL() => 200,
+        ShadBreakpointLG() => 100,
+        ShadBreakpointMD() => 50,
+        _ => 20, // Default case for other breakpoints
           }),
           child: child,
         );
@@ -37,10 +37,10 @@ class SliverContentPadding extends StatelessWidget {
             padding: EdgeInsets.symmetric(
                 horizontal: switch(breakpoint){
               ShadBreakpointXXL() => 300,
-              ShadBreakpointXL() => 300,
-              ShadBreakpointLG() => 200,
-              ShadBreakpointMD() => 100,
-              _ => 50, // Default case for other breakpoints
+              ShadBreakpointXL() => 200,
+              ShadBreakpointLG() => 100,
+              ShadBreakpointMD() => 50,
+              _ => 20, // Default case for other breakpoints
             },
             vertical: switch(breakpoint){
               ShadBreakpointXXL() => 20,

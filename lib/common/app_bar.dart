@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-import 'content_padding.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({
@@ -18,24 +17,41 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     final breakpoint = breakpoints.fromWidth(width);
 
 
-    return ContentPadding(
-      child: AppBar(
-        title:  Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-             children: [
-               Text(title,style: ShadTheme.of(context).textTheme.h4,),
-               if (breakpoint >= breakpoints.md) NavBar(),
-             ],
-        ),
-        actions: [
-            ShadButton.ghost(
-            onPressed: () {
-
-            },
-            leading: Icon(LucideIcons.github),
-          ),
-        ],
+    return SliverAppBar(
+      floating: true,
+      elevation: 0,
+      pinned: true,
+      actionsPadding: EdgeInsets.only(
+        right: switch(breakpoint){
+          ShadBreakpointXXL() => 300,
+          ShadBreakpointXL() => 200,
+          ShadBreakpointLG() => 100,
+          ShadBreakpointMD() => 50,
+          _ => 20, // Default case for other breakpoints
+        },
+       ),
+      titleSpacing: switch(breakpoint){
+        ShadBreakpointXXL() => 300,
+        ShadBreakpointXL() => 200,
+        ShadBreakpointLG() => 100,
+        ShadBreakpointMD() => 50,
+        _ => 20, // Default case for other breakpoints
+      },
+      title:  Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: [
+             Text(title,style: ShadTheme.of(context).textTheme.h4,),
+             if (breakpoint >= breakpoints.md) NavBar(),
+           ],
       ),
+      actions: [
+          ShadButton.ghost(
+          onPressed: () {
+
+          },
+          leading: Icon(LucideIcons.github),
+        ),
+      ],
     );
   }
 
