@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/widgets/lazy_load_builder.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'common/app_bar.dart';
 import 'common/content_padding.dart';
 import 'common/my_footer.dart';
+import 'data/feature.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -27,13 +27,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<Widget> section1 = [_mainCol(context),_whatIsTestigo(context)];
-    List<Widget> section2 = [_mainCol(context),_whatIsTestigo(context)];
     return Scaffold(
       // appBar: MyAppBar(title: 'TestiGO'),
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
-          MyAppBar(title: 'TestiGO'),
+          MyAppBar(
+              title: 'TestiGO'
+          ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -43,7 +44,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           _featuresBuilder(),
-
+          _howItWorks(),
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -62,7 +63,7 @@ class _HomeState extends State<Home> {
 
 
 
-Container _mainCol(BuildContext context) {
+  Container _mainCol(BuildContext context) {
     return Container(
       height: 500,
       padding: const EdgeInsets.all(16.0),
@@ -92,6 +93,13 @@ Container _mainCol(BuildContext context) {
             const SizedBox(height: 16),
             Text(
               'The ultimate web testing solution for your needs.',
+              style: ShadTheme.of(
+                context,
+              ).textTheme.large.copyWith(color: Colors.white70),
+              textAlign: TextAlign.center,
+            ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.3),
+            Text(
+              'Automate Your Web UI Testing – Without Writing Code.',
               style: ShadTheme.of(
                 context,
               ).textTheme.large.copyWith(color: Colors.white70),
@@ -129,7 +137,7 @@ Container _mainCol(BuildContext context) {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                'What is?.',
+                'What is TestiGo?.',
                 style: ShadTheme.of(context).textTheme.h2,
                 textAlign: TextAlign.center,
               ).animate().fadeIn(duration: 800.ms).slideY(begin: -0.4),
@@ -137,7 +145,17 @@ Container _mainCol(BuildContext context) {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                'This tool lets you describe what you want to do on a website—like filling out forms or clicking buttons—and then automatically does those steps for you. It helps you check if your website works the way you expect, without having to do everything by hand..',
+                'Testigo is an open-source, self-hostable testing automation system built on Puppeteer. It allows QA teams, developers, and product owners to create end-to-end UI tests through a simple JSON format, without writing a single line of test code.',
+                style: ShadTheme.of(context).textTheme.small.copyWith(
+                  height: 1.7,
+                ),
+                textAlign: TextAlign.center,
+              ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.4),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Text(
+                'Instead of traditional test scripts, users can record interactions using a Chrome Extension and run those as test cases via a single HTTP API endpoint.',
                 style: ShadTheme.of(context).textTheme.small.copyWith(
                   height: 1.7,
                 ),
@@ -151,6 +169,7 @@ Container _mainCol(BuildContext context) {
   }
 
   Widget _featuresBuilder() {
+
     return SliverContentPadding(
       child: ShadResponsiveBuilder(
         builder: (context, breakpoint) {
@@ -171,6 +190,7 @@ Container _mainCol(BuildContext context) {
               ),
 
               delegate:SliverChildBuilderDelegate((context, index) {
+                final feature = features[index]; // Assuming you have a list of features
                 return Card(
                   elevation: 4.0,
                   shape: RoundedRectangleBorder(
@@ -182,21 +202,19 @@ Container _mainCol(BuildContext context) {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.featured_play_list,
+                          feature.icon,
                           size: 48.0,
                           color: Colors.blueAccent,
                         ).animate().fadeIn(duration: 800.ms),
                         const SizedBox(height: 16.0),
-                        Text(
-                          'Feature ${index + 1}',
+                        Text(feature.title,
                           style: ShadTheme.of(context).textTheme.h4.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                         ).animate().fadeIn(duration: 800.ms).slideY(begin: -0.2),
                         const SizedBox(height: 8.0),
-                        Text(
-                          'Description of feature ${index + 1}.',
+                        Text(feature.description,
                           style: ShadTheme.of(context).textTheme.small.copyWith(
                             height: 1.5,
                           ),
@@ -207,7 +225,7 @@ Container _mainCol(BuildContext context) {
                   ),
                 ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.1);
               },
-                childCount: 8,
+                childCount: features.length, // Example item count
 
 
               )
@@ -216,5 +234,69 @@ Container _mainCol(BuildContext context) {
       ),
     );
   }
+
+
+  Widget _howItWorks() {
+    return SliverContentPadding(
+      child: ShadResponsiveBuilder(
+        builder: (context, breakpoint) {
+          int crossAxisCount = switch (breakpoint) {
+            ShadBreakpointXXL() => 2,
+            ShadBreakpointXL() => 2,
+            ShadBreakpointLG() => 1,
+            ShadBreakpointMD() => 1,
+            _ => 1, // Default case for other breakpoints
+          };
+          return SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                mainAxisSpacing: 16.0,
+                crossAxisSpacing: 16.0,
+                childAspectRatio: 1.0,
+                mainAxisExtent: 150,
+              ),
+
+              delegate:SliverChildBuilderDelegate((context, index) {
+                final feature = works[index]; // Assuming you have a list of features
+                return Card(
+                  elevation: 4.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 16.0),
+                        Text(feature.title,
+                          style: ShadTheme.of(context).textTheme.h4.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ).animate().fadeIn(duration: 800.ms).slideY(begin: -0.2),
+                        const SizedBox(height: 8.0),
+                        Text(feature.description,
+                          style: ShadTheme.of(context).textTheme.small.copyWith(
+                            height: 1.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.2),
+                      ],
+                    ),
+                  ),
+                ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.1);
+              },
+                childCount: works.length, // Example item count
+
+
+              )
+          );
+        },
+      ),
+    );
+  }
+
 }
 

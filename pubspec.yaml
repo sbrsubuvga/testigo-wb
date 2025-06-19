@@ -37,6 +37,7 @@ dependencies:
   shadcn_ui: ^0.27.1
   flutter_animate:
     git: https://github.com/sbrsubuvga/flutter_animate.git
+  simple_grid: ^0.1.5
 
 dependency_overrides:
   flutter_animate:

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-import 'common/app_bar.dart';
 import 'home.dart';
 
 void main() {

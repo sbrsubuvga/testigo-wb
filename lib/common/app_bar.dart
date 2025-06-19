@@ -49,7 +49,15 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
 
           },
+          leading: Icon(LucideIcons.download100),
+          child: Text('Download Chrome Extension'),
+        ),
+          ShadButton.ghost(
+          onPressed: () {
+
+          },
           leading: Icon(LucideIcons.github),
+          child: Text('View on GitHub'),
         ),
       ],
     );
