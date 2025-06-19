@@ -174,9 +174,9 @@ class _HomeState extends State<Home> {
       child: ShadResponsiveBuilder(
         builder: (context, breakpoint) {
           int crossAxisCount = switch (breakpoint) {
-            ShadBreakpointXXL() => 4,
-            ShadBreakpointXL() => 4,
-            ShadBreakpointLG() => 4,
+            ShadBreakpointXXL() => 3,
+            ShadBreakpointXL() => 3,
+            ShadBreakpointLG() => 3,
             ShadBreakpointMD() => 2,
             _ => 1, // Default case for other breakpoints
           };

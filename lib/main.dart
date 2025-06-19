@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'home.dart';
+import 'how_its_work.dart';
 
 void main() {
   runApp(const App());
@@ -11,8 +11,7 @@ void main() {
 // Maps the routes to the specific widget page.
 final routes = <String, WidgetBuilder>{
   '': (_) => Home(),
-  '/alert': (_) => const ShadCard(),
-
+  '/how-it-works': (_) => const HowItWorks(),
 };
 final routeToNameRegex = RegExp('(?:^/|-)([a-zA-Z])');
 
@@ -29,7 +28,6 @@ class App extends StatelessWidget {
       themeCurve: Curves.fastLinearToSlowEaseIn,
       theme: ShadThemeData(
         brightness: Brightness.light,
-
         colorScheme: const ShadZincColorScheme.light(),
         // Example with google fonts
         // textTheme: ShadTextTheme.fromGoogleFont(GoogleFonts.poppins),
@@ -46,7 +44,22 @@ class App extends StatelessWidget {
         // Example of custom font family
         // textTheme: ShadTextTheme(family: 'UbuntuMono'),
       ),
-      home:  Home(),
     );
+  }
+
+  Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    final builder = routes[settings.name];
+    if (builder != null) {
+      return PageRouteBuilder(
+        pageBuilder: (context, __, ___) => builder(context),
+        transitionsBuilder: (_, animation, __, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      );
+    }
+    throw Exception('Route not found: ${settings.name}');
   }
 }
